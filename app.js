@@ -22,34 +22,54 @@ var Game = mongoose.model("game");
 
 //example routes
 app.get("/", function(req,res){
-    res.send("Hello There");
+    res.send("gameList.html");
 });
 
+app.get("/poop", function(req,res)
+{
+    res.send("You suck");
+})
+
+app.use(express.static(__dirname+"/pages"))
 app.post("/saveGame", function(req,res)
 {
-    console.log(req.body);
+    
+        console.log(req.body)
+        new Game(req.body).save().then(function(){
+            res.redirect("gameList.html")
+        })
+    
+})
 
-
-
-    new Game(req.body).save().then(function()
-    {
-        //res.send(req.body);
-        res.redirect("index.html");
-    });
-
-});
 
 app.get("/getGames", function(req,res){
         Game.find({}).then(function(game){
-            console.log({game});
+            //console.log({game});
             res.json({game}); 
         });
 });
 
-app.get("/poop", function(req,res){
-    res.send("What's Crack-a-lacking my guy");
-});
+
+//getting game
+app.get("/getGames", function(req,res)
+{
+    Game.find({}).then(function(game)
+    {
+        //console.log({game});
+        res.json({game});
+    })
+})
+
+//for deleting game,
+app.post("/deleteGame", function(req,res)
+{
+    console.log(`Game Deleted ${req.body.game._id}`);
+    Game.findByIdAndDelete(req.body.game._id).exec();
+    res.redirect(``);
+})
+
 app.use(express.static(__dirname+"/pages"));
-app.listen(3000, function(){
+app.listen(port, function()
+{
     console.log(`Running on port ${port}`)
-});
+})
