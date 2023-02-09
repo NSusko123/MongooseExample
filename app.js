@@ -5,6 +5,7 @@ var bodyparser = require("body-parser");
 var mongoose = require("mongoose");
 var port = process.env.port||3000;
 var db = require("./config/database");
+const { secureHeapUsed } = require("crypto");
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
@@ -67,6 +68,23 @@ app.post("/deleteGame", function(req,res)
     console.log(`Game Deleted ${req.body.game._id}`);
     Game.findByIdAndDelete(req.body.game._id).exec();
     res.redirect(``);
+})
+
+app.post("/getID::id", function(req,res){
+    console.log(req.body.game._id);
+    res.redirect("updatePage.html" + "?" + req.body.game);
+});
+
+
+//update route  USE NPX NODEMON
+app.post("/updateGame", function(req,res)
+{
+    console.log(req.body);
+    //res.redirect('gameList.html')
+    Game.findByIdAndUpdate(req.body.id, {game:req.body.game}, function()
+    {
+      res.redirect("gameList.html");  
+    });
 })
 
 app.use(express.static(__dirname+"/pages"));

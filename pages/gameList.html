@@ -9,7 +9,7 @@
 <body>
     <div id = "container">
         <h1>Game List</h1>
-        <nav>]
+        <nav>
             <a href="index.html">Enter Games Here</a>
         </nav>
         <p>List of Games Here</p>
@@ -44,8 +44,32 @@
                             })
                         })
                     })
-
                     gameElement.appendChild(deletebutton)
+
+                    //add delete button
+                    var updateButton = document.createElement("button")
+                    updateButton.innerText = "Update Game"
+                    updateButton.addEventListener("click", function()
+                    {
+                        window.location.replace("/updatePage.html?id=" + game._id + "&name=" + game.game);
+                        //window.localStorage.removeItem("/getID: " + game._id)
+                        //fetch Request to server to delete the game
+                        //location.reload()
+                        /*
+                        fetch("/getID", 
+                        {
+                            method:"POST",
+                            headers:{
+                                "Content-Type":"application/json"
+                            },
+                            body:JSON.stringify({
+                                game:game
+                            })
+                        })
+                        */
+                        
+                    });
+                    gameElement.appendChild(updateButton);
 
                 }
             })
