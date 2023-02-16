@@ -87,6 +87,28 @@ app.post("/updateGame", function(req,res)
     });
 })
 
+//Unity Route
+app.post("/unity", function(req, res){
+    console.log("Hello from Unity");
+
+    var newData = {
+        "level": req.body.level,
+        "timeElasped": req.body.timeElasped, 
+        "name": req.body.name
+    }
+    console.log(newData)
+});
+
+app.get("/SendUnityData", function(req,res){
+    console.log("Request Made");
+    var dataToSend = {
+        "level": 9000,
+        "timeElasped": 201000.32, 
+        "name": "Pat"
+    }
+    res.send(dataToSend);
+});
+
 app.use(express.static(__dirname+"/pages"));
 app.listen(port, function()
 {
